@@ -1,75 +1,68 @@
-﻿using MelonLoader;
+﻿using System.Runtime.CompilerServices;
+using MelonLoader;
+using Il2Cpp;
+using HarmonyLib;
+using System.Reflection;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Archipelago.MultiClient.Net;
+using Il2CppNodeCanvas.Tasks.Actions;
+using UnityEngine.Windows;
+
 
 namespace YookaArchipelago
 {
     public static class BuildInfo
     {
-        public const string Name = "MOD_NAME_PLACEHOLDER"; // Name of the Mod.  (MUST BE SET)
-        public const string Description = "Yooka-Replaylee Archipelago"; // Description for the Mod.  (Set as null if none)
+        public const string Name = "Yooka-Replaylee Archipelago"; // Name of the Mod.  (MUST BE SET)
+        public const string Description = "Yooka-Replaylee Archipelago connector mod"; // Description for the Mod.  (Set as null if none)
         public const string Author = "tommadness"; // Author of the Mod.  (MUST BE SET)
         public const string Company = null; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "1.0.0"; // Version of the Mod.  (MUST BE SET)
+        public const string Version = "0.0.1a"; // Version of the Mod.  (MUST BE SET)
         public const string DownloadLink = null; // Download Link for the Mod.  (Set as null if none)
     }
 
-    public class YookaArchipelago : MelonMod
+    public class YRAPMod : MelonMod
     {
-        public override void OnInitializeMelon() {
-            MelonLogger.Msg("OnApplicationStart");
-        }
-
-        public override void OnLateInitializeMelon() // Runs after OnApplicationStart.
+        private static Dictionary<string, string> _sceneLevel = new Dictionary<string, string>();
+        
+        [HarmonyPatch(typeof(CoinPickup), "Collect", new Type[] { })]
+        private static class QuillPickup
         {
-            MelonLogger.Msg("OnApplicationLateStart");
+            private static void Prefix(CoinPickup __instance)
+            {
+                string sceneName = SceneManager.GetActiveScene().name;
+                Melon<YRAPMod>.Logger.Msg(_sceneLevel[sceneName] + " - " + __instance.name);
+            }
+    
+            private static void Postfix()
+            {
+                
+            }
         }
-
-        public override void OnSceneWasLoaded(int buildindex, string sceneName) // Runs when a Scene has Loaded and is passed the Scene's Build Index and Name.
+        [HarmonyPatch(typeof(PagiePickup), "Collect", new Type[] { })]
+        private static class PagePickup
         {
-            MelonLogger.Msg("OnSceneWasLoaded: " + buildindex.ToString() + " | " + sceneName);
+            private static bool Prefix(PagiePickup __instance)
+            {
+                string sceneName = SceneManager.GetActiveScene().name;
+                Melon<YRAPMod>.Logger.Msg(_sceneLevel[sceneName] + " - " + __instance.name);
+                __instance.GetCollectionStatus();
+                return false;
+            }
+    
+            private static void Postfix()
+            {
+                
+            }
         }
 
-        public override void OnSceneWasInitialized(int buildindex, string sceneName) // Runs when a Scene has Initialized and is passed the Scene's Build Index and Name.
+        public override void OnLateInitializeMelon()
         {
-            MelonLogger.Msg("OnSceneWasInitialized: " + buildindex.ToString() + " | " + sceneName);
-        }
-
-        public override void OnSceneWasUnloaded(int buildIndex, string sceneName) {
-            MelonLogger.Msg("OnSceneWasUnloaded: " + buildIndex.ToString() + " | " + sceneName);
-        }
-
-        public override void OnUpdate() // Runs once per frame.
-        {
-            MelonLogger.Msg("OnUpdate");
-        }
-
-        public override void OnFixedUpdate() // Can run multiple times per frame. Mostly used for Physics.
-        {
-            MelonLogger.Msg("OnFixedUpdate");
-        }
-
-        public override void OnLateUpdate() // Runs once per frame after OnUpdate and OnFixedUpdate have finished.
-        {
-            MelonLogger.Msg("OnLateUpdate");
-        }
-
-        public override void OnGUI() // Can run multiple times per frame. Mostly used for Unity's IMGUI.
-        {
-            MelonLogger.Msg("OnGUI");
-        }
-
-        public override void OnApplicationQuit() // Runs when the Game is told to Close.
-        {
-            MelonLogger.Msg("OnApplicationQuit");
-        }
-
-        public override void OnPreferencesSaved() // Runs when Melon Preferences get saved.
-        {
-            MelonLogger.Msg("OnPreferencesSaved");
-        }
-
-        public override void OnPreferencesLoaded() // Runs when Melon Preferences get loaded.
-        {
-            MelonLogger.Msg("OnPreferencesLoaded");
+            Application.runInBackground = true;
+            _sceneLevel.Add("Level_01_Jungle", "TT");
+            LoggerInstance.Msg("Yooka-Replaylee Archipelago Loaded");
+            
         }
     }
 }

@@ -6,4 +6,37 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
+      <PackageReference Include="LavaGang.MelonLoader" Version="0.7.1" />
+      <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\0Harmony.dll</HintPath>
+      </Reference>
+      <Reference Include="Assembly-CSharp">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+      </Reference>
+      <Reference Include="Il2CppInterop.Common">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\Il2CppInterop.Common.dll</HintPath>
+      </Reference>
+      <Reference Include="Il2CppInterop.Runtime">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+      </Reference>
+      <Reference Include="Il2Cppmscorlib">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+      </Reference>
+      <Reference Include="MonoMod">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\MonoMod.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.Il2CppAssetBundleManager">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\UnityEngine.Il2CppAssetBundleManager.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.Il2CppImageConversionManager">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\UnityEngine.Il2CppImageConversionManager.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>
