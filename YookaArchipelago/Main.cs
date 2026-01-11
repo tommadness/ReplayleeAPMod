@@ -27,12 +27,13 @@ namespace YookaArchipelago
         private static Dictionary<string, string> _sceneLevel = new Dictionary<string, string>();
         
         [HarmonyPatch(typeof(CoinPickup), "Collect", new Type[] { })]
-        private static class QuillPickup
+        private static class QuillPickupHook
         {
-            private static void Prefix(CoinPickup __instance)
+            private static bool Prefix(CoinPickup __instance)
             {
                 string sceneName = SceneManager.GetActiveScene().name;
                 Melon<YRAPMod>.Logger.Msg(_sceneLevel[sceneName] + " - " + __instance.name);
+                return false;
             }
     
             private static void Postfix()
@@ -40,10 +41,10 @@ namespace YookaArchipelago
                 
             }
         }
-        [HarmonyPatch(typeof(PagiePickup), "Collect", new Type[] { })]
-        private static class PagePickup
+        [HarmonyPatch(typeof(Il2Cpp.PagiePickup), "Collect", new Type[] { })]
+        private static class PagiePickupHook
         {
-            private static bool Prefix(PagiePickup __instance)
+            private static bool Prefix(Il2Cpp.PagiePickup __instance)
             {
                 string sceneName = SceneManager.GetActiveScene().name;
                 Melon<YRAPMod>.Logger.Msg(_sceneLevel[sceneName] + " - " + __instance.name);
