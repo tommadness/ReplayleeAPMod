@@ -1,13 +1,7 @@
-﻿using System.Runtime.CompilerServices;
-using MelonLoader;
-using Il2Cpp;
-using HarmonyLib;
-using System.Reflection;
+﻿using MelonLoader;
+
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using Archipelago.MultiClient.Net;
-using Il2CppNodeCanvas.Tasks.Actions;
-using UnityEngine.Windows;
+
 
 
 namespace YookaArchipelago
@@ -24,46 +18,20 @@ namespace YookaArchipelago
 
     public class YRAPMod : MelonMod
     {
-        private static Dictionary<string, string> _sceneLevel = new Dictionary<string, string>();
+        public static Dictionary<string, string> sceneLevel = new Dictionary<string, string>();
+        private GameObject player;
+        private Hooks _hooks = new Hooks();
         
-        [HarmonyPatch(typeof(CoinPickup), "Collect", new Type[] { })]
-        private static class QuillPickupHook
-        {
-            private static bool Prefix(CoinPickup __instance)
-            {
-                string sceneName = SceneManager.GetActiveScene().name;
-                Melon<YRAPMod>.Logger.Msg(_sceneLevel[sceneName] + " - " + __instance.name);
-                return false;
-            }
-    
-            private static void Postfix()
-            {
-                
-            }
-        }
-        [HarmonyPatch(typeof(Il2Cpp.PagiePickup), "Collect", new Type[] { })]
-        private static class PagiePickupHook
-        {
-            private static bool Prefix(Il2Cpp.PagiePickup __instance)
-            {
-                string sceneName = SceneManager.GetActiveScene().name;
-                Melon<YRAPMod>.Logger.Msg(_sceneLevel[sceneName] + " - " + __instance.name);
-                __instance.GetCollectionStatus();
-                return false;
-            }
-    
-            private static void Postfix()
-            {
-                
-            }
-        }
-
         public override void OnLateInitializeMelon()
         {
-            Application.runInBackground = true;
-            _sceneLevel.Add("Level_01_Jungle", "TT");
+            sceneLevel.Add("Level_01_Jungle", "TT");
             LoggerInstance.Msg("Yooka-Replaylee Archipelago Loaded");
-            
         }
+
+        public override void OnEarlyInitializeMelon()
+        {
+            Application.runInBackground = true;
+        }
+        
     }
 }
