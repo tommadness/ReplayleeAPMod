@@ -21,11 +21,13 @@ namespace YookaArchipelago
         public static Dictionary<string, string> sceneLevel = new Dictionary<string, string>();
         private GameObject player;
         private Hooks _hooks = new Hooks();
+        private APClient _client;
         
         public override void OnLateInitializeMelon()
         {
             sceneLevel.Add("Level_01_Jungle", "TT");
             LoggerInstance.Msg("Yooka-Replaylee Archipelago Loaded");
+            _client = new APClient("localhost", 38281);
         }
 
         public override void OnEarlyInitializeMelon()
