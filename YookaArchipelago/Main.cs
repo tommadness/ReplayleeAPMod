@@ -1,5 +1,6 @@
-﻿using MelonLoader;
-
+﻿using System.Collections;
+using MelonLoader;
+using Il2Cpp;
 using UnityEngine;
 
 
@@ -34,6 +35,29 @@ namespace YookaArchipelago
         {
             Application.runInBackground = true;
         }
-        
+
+        public override void OnSceneWasInitialized(int buildIndex, string sceneName)
+        {
+            if(sceneName == "Level_00_Hub_A_Environment")
+            {
+                MelonCoroutines.Start(updateEarlySlopes());
+            }
+            if(sceneName == "Level_Common")
+            {
+                MelonCoroutines.Start(findPlayer());
+            }
+        }
+
+        private IEnumerator updateEarlySlopes()
+        {           
+            yield return new WaitForSeconds(1f);
+            GameObject.Find("hub_lair_floor_slippy_01_a").GetComponent<ObjectSurface>().IsSurfaceSlippy = false;
+        }
+
+        private IEnumerator findPlayer()
+        {
+            yield return new WaitForSeconds(0.01f);
+            player = GameObject.Find("PlayerKamBatV5");
+        }
     }
 }
