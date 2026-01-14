@@ -3,12 +3,17 @@ namespace YookaArchipelago;
 public static class SceneWorld
 {
     private static Dictionary<string, string> sceneWorld = new Dictionary<string, string>()
-    {
-        { "Level_01_Jungle", "TT" },
-        { "Level_00_Hub_A", "HT" }
+    {   
+        { "Level_00", "HT" },
+        { "Level_01", "TT" },
+        {"Level_02", "GlGl"},
+        {"Level_03", "MM"},
+        {"Level_04", "CC"},
+        {"Level_05", "GaGa"},
     };
     public static string GetWorld(string scene)
     {
+        scene = scene.Substring(0, 8);
         return sceneWorld[scene];
     }
 }
