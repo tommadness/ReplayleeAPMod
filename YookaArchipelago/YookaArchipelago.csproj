@@ -9,7 +9,6 @@
     <ItemGroup>
       <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
       <PackageReference Include="LavaGang.MelonLoader" Version="0.7.1" />
-      <PackageReference Include="UnityEngine.CoreModule" Version="2020.3.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,11 +30,26 @@
       <Reference Include="MonoMod">
         <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\MonoMod.dll</HintPath>
       </Reference>
+      <Reference Include="UnityEngine">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine.Il2CppAssetBundleManager">
         <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\UnityEngine.Il2CppAssetBundleManager.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.Il2CppImageConversionManager">
         <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\UnityEngine.Il2CppImageConversionManager.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.IMGUIModule">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.IMGUIModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.InputLegacyModule">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputLegacyModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.InputModule">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputModule.dll</HintPath>
       </Reference>
     </ItemGroup>
 
