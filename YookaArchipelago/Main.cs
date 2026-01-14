@@ -2,7 +2,7 @@
 using MelonLoader;
 using Il2Cpp;
 using UnityEngine;
-
+using UnityEngine.Windows;
 
 
 namespace YookaArchipelago
@@ -26,9 +26,8 @@ namespace YookaArchipelago
         
         public override void OnLateInitializeMelon()
         {
-            sceneLevel.Add("Level_01_Jungle", "TT");
-            LoggerInstance.Msg("Yooka-Replaylee Archipelago Loaded");
             _client = new APClient("localhost", 38281);
+            
         }
 
         public override void OnEarlyInitializeMelon()
