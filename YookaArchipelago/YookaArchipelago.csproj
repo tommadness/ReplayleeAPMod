@@ -4,6 +4,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <GamePath>/run/media/thomas/Game/SteamLibrary/steamapps/common/Game07</GamePath>
     </PropertyGroup>
 
     <ItemGroup>
@@ -13,43 +14,43 @@
 
     <ItemGroup>
       <Reference Include="0Harmony">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\0Harmony.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\net6\0Harmony.dll</HintPath>
       </Reference>
       <Reference Include="Assembly-CSharp">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
       </Reference>
       <Reference Include="Il2CppInterop.Common">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\Il2CppInterop.Common.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\net6\Il2CppInterop.Common.dll</HintPath>
       </Reference>
       <Reference Include="Il2CppInterop.Runtime">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
       </Reference>
       <Reference Include="Il2Cppmscorlib">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
       </Reference>
       <Reference Include="MonoMod">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\MonoMod.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\net6\MonoMod.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.CoreModule.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.CoreModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.Il2CppAssetBundleManager">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\UnityEngine.Il2CppAssetBundleManager.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\net6\UnityEngine.Il2CppAssetBundleManager.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.Il2CppImageConversionManager">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\net6\UnityEngine.Il2CppImageConversionManager.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\net6\UnityEngine.Il2CppImageConversionManager.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.IMGUIModule">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.IMGUIModule.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.IMGUIModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.InputLegacyModule">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputLegacyModule.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputLegacyModule.dll</HintPath>
       </Reference>
       <Reference Include="UnityEngine.InputModule">
-        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputModule.dll</HintPath>
+        <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputModule.dll</HintPath>
       </Reference>
     </ItemGroup>
 
