@@ -11,7 +11,7 @@ public class Hooks
         private static bool Prefix(CoinPickup __instance)
         {
             string sceneName = SceneManager.GetActiveScene().name;
-            Melon<YRAPMod>.Logger.Msg(YRAPMod.sceneLevel[sceneName] + " - " + __instance.name);
+            Melon<YRAPMod>.Logger.Msg(SceneWorld.GetWorld(sceneName) + " - " + __instance.name);
             __instance.SetMaterial(__instance.CollectedMaterial);
             return true;
         }
@@ -23,7 +23,7 @@ public class Hooks
         private static bool Prefix(PagiePickup __instance)
         {
             string sceneName = SceneManager.GetActiveScene().name;
-            Melon<YRAPMod>.Logger.Msg(YRAPMod.sceneLevel[sceneName] + " - " + __instance.name);
+            Melon<YRAPMod>.Logger.Msg(SceneWorld.GetWorld(sceneName) + " - " + __instance.name);
             return true;
         }
         
@@ -34,6 +34,15 @@ public class Hooks
         private static void Postfix(PlayerMoves __instance)
         {
             __instance.MoveGlide.mIsEnabledInGame = false;
+        }
+    }
+
+    [HarmonyPatch(typeof(BasePickup), "Start", new Type[] { })]
+    private static class CoinPickupCollectionStatusHook
+    {
+        private static void Prefix(BasePickup __instance)
+        {
+            Melon<YRAPMod>.Logger.Msg(__instance.name + " STARTED");
         }
     }
 
