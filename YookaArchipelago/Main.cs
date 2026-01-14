@@ -39,21 +39,21 @@ namespace YookaArchipelago
         {
             if(sceneName == "Level_00_Hub_A_Environment")
             {
-                MelonCoroutines.Start(updateEarlySlopes());
+                MelonCoroutines.Start(UnslipEarlySlopes());
             }
             if(sceneName == "Level_Common")
             {
-                MelonCoroutines.Start(findPlayer());
+                MelonCoroutines.Start(FindPlayer());
             }
         }
 
-        private IEnumerator updateEarlySlopes()
+        private IEnumerator UnslipEarlySlopes()
         {           
             yield return new WaitForSeconds(1f);
             GameObject.Find("hub_lair_floor_slippy_01_a").GetComponent<ObjectSurface>().IsSurfaceSlippy = false;
         }
 
-        private IEnumerator findPlayer()
+        private IEnumerator FindPlayer()
         {
             yield return new WaitForSeconds(0.01f);
             player = GameObject.Find("PlayerKamBatV5");
