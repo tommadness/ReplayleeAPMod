@@ -45,14 +45,16 @@ public class Hooks
         private static void CoinPickup_GetCollectionStatus(CoinPickup __instance, ref CollectionStatus __result)
         {
             //Melon<YRAPMod>.Logger.Msg(string.Format("{0} COLLECTION STATUS: {1}", __instance.name, __result));
-            __result = APData.locationsChecked.Contains(APClient.GetLocationIdFromName(__instance.name)) ? CollectionStatus.Collected : CollectionStatus.NotSpawned;
+            string sceneName = __instance.gameObject.scene.name;
+            string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
+            __result = APData.locationsChecked.Contains(APClient.GetLocationIdFromName(locationName)) ? CollectionStatus.Collected : CollectionStatus.NotSpawned;
         }
         
         [HarmonyPatch(nameof(CoinPickup.Collect))]
         [HarmonyPrefix]
         private static void CoinPickup_Collect(CoinPickup __instance)
         {
-            string sceneName = SceneManager.GetActiveScene().name;
+            string sceneName = __instance.gameObject.scene.name;
             string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
             //Melon<YRAPMod>.Logger.Msg(locationName);
             LocationCollected(locationName);
