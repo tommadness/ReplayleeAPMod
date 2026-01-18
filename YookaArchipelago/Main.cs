@@ -20,8 +20,8 @@ namespace YookaArchipelago
 
     public class YRAPMod : MelonMod
     {
-        public static Hooks Hooks = null!;
-        private APClient _client;
+        public static Hooks hooks = null!;
+        private APClient _client = null!;
         
         public override void OnEarlyInitializeMelon()
         {
@@ -31,7 +31,9 @@ namespace YookaArchipelago
         public override void OnLateInitializeMelon()
         {
             _client = new APClient("localhost", 38281);
-            Hooks = new Hooks();
+            hooks = new Hooks();
+            
+            Hooks.CoinPickupHooks.CoinCollected += _client.SendLocation;
 
         }
         
