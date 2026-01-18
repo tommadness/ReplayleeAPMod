@@ -20,7 +20,6 @@ namespace YookaArchipelago
     {
         public static Hooks hooks = null!;
         private APClient _client = null!;
-        private APData _apData = null!;
         
         public override void OnEarlyInitializeMelon()
         {
@@ -30,7 +29,7 @@ namespace YookaArchipelago
         public override void OnLateInitializeMelon()
         {
             _client = new APClient();
-            _apData = _client.Connect();
+            _client.Connect();
             hooks = new Hooks();
             
             Hooks.LocationCollected += _client.SendLocation;

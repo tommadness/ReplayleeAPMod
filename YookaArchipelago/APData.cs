@@ -1,7 +1,7 @@
 namespace YookaArchipelago;
 
-public class APData
+public static class APData
 {
-    public List<long> locationsChecked;
+    public static List<long> locationsChecked;
     
 }

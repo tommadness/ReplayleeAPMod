@@ -8,8 +8,7 @@ using Archipelago.MultiClient.Net;
 
 public class APClient
 {
-    private ArchipelagoSession Session;
-    private APData? _apData;
+    private static ArchipelagoSession Session;
 
     public APClient(string host="localhost", int port=38281)
     {
@@ -18,27 +17,24 @@ public class APClient
         
     }
 
-    public APData? Connect(string player="Player1")
+    public void Connect(string player="Player1")
     {
         var loginResult = Session.TryConnectAndLogin("Yooka-Replaylee", player, ItemsHandlingFlags.AllItems, Version.Parse("0.6.5"));
         if (loginResult.Successful)
         {
-            _apData = new APData();
             var loginSuccess = (LoginSuccessful)loginResult;
-            _apData.locationsChecked = Session.Locations.AllLocationsChecked.ToList();
-            return _apData;
+            APData.locationsChecked = Session.Locations.AllLocationsChecked.ToList();
         }
-
-        return null;
+        
     }
 
     public void SendLocation(string location)
     {
         var locationId = Session.Locations.GetLocationIdFromName("Yooka-Replaylee", location);
-        if(!_apData.locationsChecked.Contains(locationId))
+        if(!APData.locationsChecked.Contains(locationId))
         {
             Melon<YRAPMod>.Logger.Msg($"AP SENDING: {locationId}: {location}");
-            _apData.locationsChecked.Add(locationId);
+            APData.locationsChecked.Add(locationId);
             Session.Locations.CompleteLocationChecks(locationId);
         }
     }
@@ -52,4 +48,10 @@ public class APClient
 
         receivedItemsHelper.DequeueItem();
     }
+
+    public static long GetLocationIdFromName(string location)
+    {
+        return Session.Locations.GetLocationIdFromName("Yooka-Replaylee", location);
+    }
+    
 }
