@@ -1,6 +1,6 @@
 namespace YookaArchipelago;
 
-public static class SceneWorld
+public static class Data
 {
     private static Dictionary<string, string> sceneWorld = new Dictionary<string, string>()
     {   

@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class Hooks
 {
     public delegate void ArchipelagoLocationHandler(string location);
+    public static event ArchipelagoLocationHandler LocationCollected;
     
     [HarmonyPatch(typeof(PagiePickup))]
     private static class PagiePickupHook
@@ -17,6 +18,8 @@ public class Hooks
         private static bool PagieCollect(PagiePickup __instance)
         {
             string sceneName = SceneManager.GetActiveScene().name;
+            string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
+            LocationCollected(locationName);
             //Melon<YRAPMod>.Logger.Msg(SceneWorld.GetWorld(sceneName) + " - " + __instance.name);
             return true;
         }
@@ -36,7 +39,6 @@ public class Hooks
     [HarmonyPatch(typeof(CoinPickup))]
     public static class CoinPickupHooks
     {
-        public static event ArchipelagoLocationHandler CoinCollected;
 
         [HarmonyPatch(nameof(CoinPickup.GetCollectionStatus))]
         [HarmonyPostfix]
@@ -51,9 +53,9 @@ public class Hooks
         private static void CoinPickup_Collect(CoinPickup __instance)
         {
             string sceneName = SceneManager.GetActiveScene().name;
-            string locationName = string.Format("{0} - {1}", SceneWorld.GetWorld(sceneName), __instance.name);
+            string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
             //Melon<YRAPMod>.Logger.Msg(locationName);
-            CoinCollected(locationName);
+            LocationCollected(locationName);
         }
     }
 

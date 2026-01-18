@@ -2,8 +2,6 @@
 using MelonLoader;
 using Il2Cpp;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.Windows;
 
 
 namespace YookaArchipelago
@@ -13,15 +11,16 @@ namespace YookaArchipelago
         public const string Name = "Yooka-Replaylee Archipelago"; // Name of the Mod.  (MUST BE SET)
         public const string Description = "Yooka-Replaylee Archipelago connector mod"; // Description for the Mod.  (Set as null if none)
         public const string Author = "tommadness"; // Author of the Mod.  (MUST BE SET)
-        public const string Company = null; // Company that made the Mod.  (Set as null if none)
+        public const string Company = null!; // Company that made the Mod.  (Set as null if none)
         public const string Version = "0.0.1"; // Version of the Mod.  (MUST BE SET)
-        public const string DownloadLink = null; // Download Link for the Mod.  (Set as null if none)
+        public const string DownloadLink = null!; // Download Link for the Mod.  (Set as null if none)
     }
 
     public class YRAPMod : MelonMod
     {
         public static Hooks hooks = null!;
         private APClient _client = null!;
+        private APData _apData = null!;
         
         public override void OnEarlyInitializeMelon()
         {
@@ -30,10 +29,11 @@ namespace YookaArchipelago
         
         public override void OnLateInitializeMelon()
         {
-            _client = new APClient("localhost", 38281);
+            _client = new APClient();
+            _apData = _client.Connect();
             hooks = new Hooks();
             
-            Hooks.CoinPickupHooks.CoinCollected += _client.SendLocation;
+            Hooks.LocationCollected += _client.SendLocation;
 
         }
         
