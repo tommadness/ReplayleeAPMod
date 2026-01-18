@@ -2,6 +2,7 @@
 using MelonLoader;
 using Il2Cpp;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Windows;
 
 
@@ -19,31 +20,26 @@ namespace YookaArchipelago
 
     public class YRAPMod : MelonMod
     {
-        public static Dictionary<string, string> sceneLevel = new Dictionary<string, string>();
-        private GameObject player;
-        private Hooks _hooks = new Hooks();
+        public static Hooks Hooks = null!;
         private APClient _client;
         
-        public override void OnLateInitializeMelon()
-        {
-            _client = new APClient("localhost", 38281);
-            
-        }
-
         public override void OnEarlyInitializeMelon()
         {
             Application.runInBackground = true;
         }
+        
+        public override void OnLateInitializeMelon()
+        {
+            _client = new APClient("localhost", 38281);
+            Hooks = new Hooks();
 
+        }
+        
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
             if(sceneName == "Level_00_Hub_A_Environment")
             {
                 MelonCoroutines.Start(UnslipEarlySlopes());
-            }
-            if(sceneName == "Level_Common")
-            {
-                MelonCoroutines.Start(FindPlayer());
             }
         }
 
@@ -52,11 +48,6 @@ namespace YookaArchipelago
             yield return new WaitForSeconds(1f);
             GameObject.Find("hub_lair_floor_slippy_01_a").GetComponent<ObjectSurface>().IsSurfaceSlippy = false;
         }
-
-        private IEnumerator FindPlayer()
-        {
-            yield return new WaitForSeconds(0.01f);
-            player = GameObject.Find("PlayerKamBatV5");
-        }
+        
     }
 }

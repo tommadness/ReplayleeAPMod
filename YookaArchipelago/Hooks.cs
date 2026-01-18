@@ -1,3 +1,5 @@
+using Il2CppPlaytonic.Game;
+
 namespace YookaArchipelago;
 using MelonLoader;
 using HarmonyLib;
@@ -5,22 +7,12 @@ using Il2Cpp;
 using UnityEngine.SceneManagement;
 public class Hooks
 {
-    [HarmonyPatch(typeof(CoinPickup), "Collect", new Type[] { })]
-    private static class QuillPickupHook
-    {
-        private static bool Prefix(CoinPickup __instance)
-        {
-            string sceneName = SceneManager.GetActiveScene().name;
-            Melon<YRAPMod>.Logger.Msg(SceneWorld.GetWorld(sceneName) + " - " + __instance.name);
-            __instance.SetMaterial(__instance.CollectedMaterial);
-            return true;
-        }
-        
-    }
-    [HarmonyPatch(typeof(PagiePickup), "Collect", new Type[] { })]
+    [HarmonyPatch(typeof(PagiePickup))]
     private static class PagiePickupHook
     {
-        private static bool Prefix(PagiePickup __instance)
+        [HarmonyPatch(nameof(PagiePickup.Collect))]
+        [HarmonyPrefix]
+        private static bool PagieCollect(PagiePickup __instance)
         {
             string sceneName = SceneManager.GetActiveScene().name;
             Melon<YRAPMod>.Logger.Msg(SceneWorld.GetWorld(sceneName) + " - " + __instance.name);
@@ -28,23 +20,36 @@ public class Hooks
         }
         
     }
-    [HarmonyPatch(typeof(PlayerMoves), "Start", new Type[] { })]
+    [HarmonyPatch(typeof(PlayerMoves))]
     private static class PlayerMovesHook
-    {
-        private static void Postfix(PlayerMoves __instance)
+    {    
+        [HarmonyPatch(nameof(PlayerMoves.Start))]
+        [HarmonyPostfix]
+        private static void CheckPlayerMoves(PlayerMoves __instance)
         {
             __instance.MoveGlide.mIsEnabledInGame = false;
         }
     }
 
-    [HarmonyPatch(typeof(BasePickup), "Start", new Type[] { })]
-    private static class CoinPickupCollectionStatusHook
+    [HarmonyPatch(typeof(CoinPickup))]
+    private static class CoinPickupHooks
     {
-        private static void Prefix(BasePickup __instance)
+
+        [HarmonyPatch(nameof(CoinPickup.GetCollectionStatus))]
+        [HarmonyPostfix]
+        private static void CoinPickup_GetCollectionStatus(CoinPickup __instance, ref CollectionStatus __result)
         {
-            Melon<YRAPMod>.Logger.Msg(__instance.name + " STARTED");
+            Melon<YRAPMod>.Logger.Msg(string.Format("{0} COLLECTION STATUS: {1}", __instance.name, __result));
+            __result = CollectionStatus.NotSpawned;
+        }
+        
+        [HarmonyPatch(nameof(CoinPickup.Collect))]
+        [HarmonyPrefix]
+        private static void CoinPickup_Collect(CoinPickup __instance)
+        {
+            string sceneName = SceneManager.GetActiveScene().name;
+            Melon<YRAPMod>.Logger.Msg(string.Format("{0} - {1}", SceneWorld.GetWorld(sceneName), __instance.name));
         }
     }
-
 
 }
