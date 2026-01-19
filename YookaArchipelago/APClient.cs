@@ -45,7 +45,10 @@ public class APClient
         var itemReceivedName = receivedItemsHelper.PeekItem().ItemDisplayName;
 
         Melon<YRAPMod>.Logger.Msg($"AP RECEIVED: {itemReceivedName}:  {itemReceivedId}");
-        APData.AddPlayerMove(itemReceivedName);
+        if(APData.apNameToMoveName.ContainsKey(itemReceivedName))
+        {
+            APData.AddPlayerMove(itemReceivedName);
+        }
 
         receivedItemsHelper.DequeueItem();
     }

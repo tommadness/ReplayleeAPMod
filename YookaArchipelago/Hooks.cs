@@ -32,7 +32,11 @@ public class Hooks
         [HarmonyPostfix]
         private static void CheckPlayerMoves(PlayerMoves __instance)
         {
-            __instance.MoveBasicAttack.mIsEnabledInGame = APData.playerMoves["MoveBasicAttack"];
+            foreach (PlayerMoves.Moves move in __instance.mMoveDictionary.Keys)
+            {
+                __instance.GetMove(move).mIsEnabledInGame = APData.playerMoves[move];
+                Melon<YRAPMod>.Logger.Msg($"MOVE: {move}, STATE: {APData.playerMoves[move]}");
+            }
 
         }
 

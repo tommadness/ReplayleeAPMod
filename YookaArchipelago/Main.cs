@@ -41,15 +41,15 @@ namespace YookaArchipelago
 
         }
 
-        public void ActivatePlayerMove(string move)
+        public void ActivatePlayerMove(PlayerMoves.Moves move)
         {
             if (player == null)
             {
                 player = GameObject.Find("PlayerKamBatV5");
                 LoggerInstance.Msg(player.name);
             }
-            LoggerInstance.Msg(move);
-            player.GetComponent<PlayerMoves>().MoveBasicAttack.mIsEnabledInGame = true;
+            LoggerInstance.Msg($"ACTIVAING: {move}");
+            player.GetComponent<PlayerMoves>().GetMove(move).mIsEnabledInGame = true;
         }
         
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
