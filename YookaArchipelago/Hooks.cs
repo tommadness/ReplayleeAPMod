@@ -1,5 +1,5 @@
 using Il2CppPlaytonic.Game;
-
+using System.Reflection;
 namespace YookaArchipelago;
 using MelonLoader;
 using HarmonyLib;
@@ -32,7 +32,15 @@ public class Hooks
         [HarmonyPostfix]
         private static void CheckPlayerMoves(PlayerMoves __instance)
         {
-            __instance.MoveGlide.mIsEnabledInGame = false;
+            __instance.MoveBasicAttack.mIsEnabledInGame = APData.playerMoves["MoveBasicAttack"];
+
+        }
+
+        [HarmonyPatch(nameof(PlayerMoves.EnableMoveInGame),new Type[]{typeof(PlayerMoves.Moves), typeof(bool)})]
+        [HarmonyPrefix]
+        private static bool EnableMoveInGame(PlayerMoves __instance)
+        {
+            return false;
         }
     }
     

@@ -28,6 +28,12 @@
       <Reference Include="Il2Cppmscorlib">
         <HintPath>$(GamePath)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
       </Reference>
+      <Reference Include="Il2CppParadoxNotion">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Il2CppParadoxNotion.dll</HintPath>
+      </Reference>
+      <Reference Include="Il2CppPlaytonic.Core">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Il2CppPlaytonic.Core.dll</HintPath>
+      </Reference>
       <Reference Include="MonoMod">
         <HintPath>$(GamePath)\MelonLoader\net6\MonoMod.dll</HintPath>
       </Reference>

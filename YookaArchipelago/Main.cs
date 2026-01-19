@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using MelonLoader;
 using Il2Cpp;
+using Il2CppPlaytonic.Game;
 using UnityEngine;
+using Il2CppParadoxNotion;
+using UnityEngine.SceneManagement;
 
 
 namespace YookaArchipelago
@@ -20,6 +23,7 @@ namespace YookaArchipelago
     {
         public static Hooks hooks = null!;
         private APClient _client = null!;
+        private GameObject player = null!;
         
         public override void OnEarlyInitializeMelon()
         {
@@ -33,7 +37,19 @@ namespace YookaArchipelago
             hooks = new Hooks();
             
             Hooks.LocationCollected += _client.SendLocation;
+            APData.NewMoveReceived += ActivatePlayerMove;
 
+        }
+
+        public void ActivatePlayerMove(string move)
+        {
+            if (player == null)
+            {
+                player = GameObject.Find("PlayerKamBatV5");
+                LoggerInstance.Msg(player.name);
+            }
+            LoggerInstance.Msg(move);
+            player.GetComponent<PlayerMoves>().MoveBasicAttack.mIsEnabledInGame = true;
         }
         
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
@@ -42,12 +58,34 @@ namespace YookaArchipelago
             {
                 MelonCoroutines.Start(UnslipEarlySlopes());
             }
+
+            if (sceneName == "Level_00_Hub_A_CaveJ")
+            {
+                MelonCoroutines.Start(SkipTutorialCave());
+            }
         }
 
         private IEnumerator UnslipEarlySlopes()
         {           
             yield return new WaitForSeconds(1f);
             GameObject.Find("hub_lair_floor_slippy_01_a").GetComponent<ObjectSurface>().IsSurfaceSlippy = false;
+        }
+
+        private IEnumerator SkipTutorialCave()
+        {
+            yield return new WaitForSeconds(5f);
+            LoggerInstance.Msg("Setting up Tutorial Cave skip");
+            var caveToHTDoor =
+                GameObject.Find(
+                    "DOORS/CaveExitToHivoryEntranceDoor");
+            LoggerInstance.Msg(caveToHTDoor.name);
+            var shipwreckToCaveDoor = GameObject.Find("DOORS/ShipwreckCreekToCaveEntranceDoor");
+            LoggerInstance.Msg(shipwreckToCaveDoor.name);
+            caveToHTDoor.GetComponent<Transform>().position = shipwreckToCaveDoor.GetComponent<Transform>().position;
+            caveToHTDoor.GetComponent<Transform>().rotation = shipwreckToCaveDoor.GetComponent<Transform>().rotation;
+            shipwreckToCaveDoor.SetActive(false);
+
+
         }
         
     }
