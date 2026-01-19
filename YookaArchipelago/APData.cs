@@ -40,7 +40,7 @@ public static class APData
         {"Sonar Shield", PlayerMoves.Moves.SonarShield },
         {"Roll", PlayerMoves.Moves.WheelRoll },
         {"EatMk1", PlayerMoves.Moves.EatMk1 },
-        {"EatMk2", PlayerMoves.Moves.EatMk2 },
+        {"Ice Shot", PlayerMoves.Moves.EatMk2 },
         {"EatMk3", PlayerMoves.Moves.EatMk3 },
         {"Wheel Spin Attack", PlayerMoves.Moves.WheelSpinAttack},
         {"Fly", PlayerMoves.Moves.Fly},
