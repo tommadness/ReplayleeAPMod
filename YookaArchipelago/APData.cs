@@ -6,6 +6,7 @@ public static class APData
     public delegate void NewMoveHandler(PlayerMoves.Moves move);
     public static event NewMoveHandler NewMoveReceived;
     public static List<long> locationsChecked;
+    public static bool DeathlinkReceived = false;
     public static Dictionary<PlayerMoves.Moves, bool> playerMoves = new Dictionary<PlayerMoves.Moves, bool>()
     {
         {PlayerMoves.Moves.BasicAttack,false},
@@ -39,9 +40,9 @@ public static class APData
         {"Sonar Boom", PlayerMoves.Moves.SonarBoom },
         {"Sonar Shield", PlayerMoves.Moves.SonarShield },
         {"Roll", PlayerMoves.Moves.WheelRoll },
-        {"EatMk1", PlayerMoves.Moves.EatMk1 },
+        {"Flame Shot", PlayerMoves.Moves.EatMk1 },
         {"Ice Shot", PlayerMoves.Moves.EatMk2 },
-        {"EatMk3", PlayerMoves.Moves.EatMk3 },
+        {"Metal Yooka", PlayerMoves.Moves.EatMk3 },
         {"Wheel Spin Attack", PlayerMoves.Moves.WheelSpinAttack},
         {"Fly", PlayerMoves.Moves.Fly},
         {"Ground Pound", PlayerMoves.Moves.GroundPound },

@@ -1,3 +1,4 @@
+using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Il2Cpp;
@@ -9,6 +10,7 @@ using Archipelago.MultiClient.Net;
 public class APClient
 {
     private static ArchipelagoSession Session;
+    public static DeathLinkService DeathlinkService;
 
     public APClient(string host="localhost", int port=38281)
     {
@@ -24,6 +26,8 @@ public class APClient
         {
             var loginSuccess = (LoginSuccessful)loginResult;
             APData.locationsChecked = Session.Locations.AllLocationsChecked.ToList();
+            DeathlinkService = Session.CreateDeathLinkService();
+            DeathlinkService.EnableDeathLink();
         }
         
     }
@@ -56,6 +60,12 @@ public class APClient
     public static long GetLocationIdFromName(string location)
     {
         return Session.Locations.GetLocationIdFromName("Yooka-Replaylee", location);
+    }
+
+    public static void SendDeathlink()
+    {
+        var deathlink = new DeathLink("Player1");
+        DeathlinkService.SendDeathLink(deathlink);
     }
     
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using MelonLoader;
 using Il2Cpp;
 using Il2CppPlaytonic.Game;
@@ -24,6 +25,7 @@ namespace YookaArchipelago
         public static Hooks hooks = null!;
         private APClient _client = null!;
         private GameObject player = null!;
+        private PlayerDeathManager deathManager = null!;
         
         public override void OnEarlyInitializeMelon()
         {
@@ -38,20 +40,38 @@ namespace YookaArchipelago
             
             Hooks.LocationCollected += _client.SendLocation;
             APData.NewMoveReceived += ActivatePlayerMove;
+            APClient.DeathlinkService.OnDeathLinkReceived += ReceiveDeathlink;
 
         }
 
+        private void ReceiveDeathlink(DeathLink deathLink)
+        {
+            LoggerInstance.Msg("Received death link");
+            LoggerInstance.Msg("Finding deathManager");
+            LoggerInstance.Msg($"Found: {deathManager.name}");
+            LoggerInstance.Msg($"DeathManagerPlayer: {deathManager.mPlayer.name}");
+            LoggerInstance.Msg("Setting debounce flag true");
+            APData.DeathlinkReceived = true;
+            LoggerInstance.Msg("Calling Post Death Sequence");
+            MelonCoroutines.Start(DoDeathLink());
+        }
+
         public void ActivatePlayerMove(PlayerMoves.Moves move)
+        {
+            findPlayer();
+            LoggerInstance.Msg($"ACTIVAING: {move}");
+            player.GetComponent<PlayerMoves>().GetMove(move).mIsEnabledInGame = true;
+        }
+
+        private void findPlayer()
         {
             if (player == null)
             {
                 player = GameObject.Find("PlayerKamBatV5");
                 LoggerInstance.Msg(player.name);
             }
-            LoggerInstance.Msg($"ACTIVAING: {move}");
-            player.GetComponent<PlayerMoves>().GetMove(move).mIsEnabledInGame = true;
         }
-        
+
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
             if(sceneName == "Level_00_Hub_A_Environment")
@@ -62,6 +82,11 @@ namespace YookaArchipelago
             if (sceneName == "Level_00_Hub_A_CaveJ")
             {
                 MelonCoroutines.Start(SkipTutorialCave());
+            }
+
+            if (sceneName == "Level_Common")
+            {
+                MelonCoroutines.Start(FindDeathManager());
             }
         }
 
@@ -87,6 +112,22 @@ namespace YookaArchipelago
 
 
         }
+
+        private IEnumerator FindDeathManager()
+        {
+            yield return new WaitForSeconds(0.1f);
+            LoggerInstance.Msg("Finding deathManager");
+            deathManager = GameObject.Find("PlayerDeathManager").GetComponent<PlayerDeathManager>();
+            LoggerInstance.Msg($"Found: {deathManager.name}");
+        }
+
+        private IEnumerator DoDeathLink()
+        {
+                yield return new WaitForSeconds(0.1f);
+                deathManager.StartPostDeathSequence(false);
+        }
+        
+        
         
     }
 }

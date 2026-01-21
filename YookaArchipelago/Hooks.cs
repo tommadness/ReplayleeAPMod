@@ -1,5 +1,7 @@
 using Il2CppPlaytonic.Game;
 using System.Reflection;
+using Il2CppRewiredConsts;
+
 namespace YookaArchipelago;
 using MelonLoader;
 using HarmonyLib;
@@ -71,6 +73,34 @@ public class Hooks
             //Melon<YRAPMod>.Logger.Msg(locationName);
             LocationCollected(locationName);
         }
+    }
+
+    [HarmonyPatch(typeof(PlayerDeathManager))]
+    public static class PlayerDeathManagerHooks
+    {
+        [HarmonyPatch(nameof(PlayerDeathManager.StartPostDeathSequence))]
+        [HarmonyPrefix]
+        public static bool StartPostDeathSequence(bool allowRespawnToLastSafePosition)
+        {
+            Melon<YRAPMod>.Logger.Msg("Starting post-death sequence");
+            if (APData.DeathlinkReceived)
+            {
+                Melon<YRAPMod>.Logger.Msg("Not sending deathlink");
+                return true;
+            }
+            Melon<YRAPMod>.Logger.Msg("Sending deathlink");
+            APClient.SendDeathlink();
+            return true;
+        }
+
+        [HarmonyPatch(nameof(PlayerDeathManager.OnFadeInStartEvent))]
+        [HarmonyPrefix]
+        public static void OnFadeInStartEvent()
+        {
+            Melon<YRAPMod>.Logger.Msg("Clearing Deathlink Flag");
+            APData.DeathlinkReceived = false;
+        }
+        
     }
 
 }
