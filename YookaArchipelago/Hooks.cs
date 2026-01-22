@@ -20,8 +20,8 @@ public class Hooks
         [HarmonyPrefix]
         private static bool PagieCollect(PagiePickup __instance)
         {
-            string sceneName = SceneManager.GetActiveScene().name;
-            string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
+            string sceneName = __instance.gameObject.scene.name;
+            string locationName = $"{Data.GetWorld(sceneName)} - {__instance.name}";
             LocationCollected(locationName);
             return true;
         }
@@ -68,7 +68,7 @@ public class Hooks
         private static void CoinPickup_Collect(CoinPickup __instance)
         {
             string sceneName = __instance.gameObject.scene.name;
-            string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
+            string locationName = $"{Data.GetWorld(sceneName)} - {__instance.name}";
             LocationCollected(locationName);
         }
     }
