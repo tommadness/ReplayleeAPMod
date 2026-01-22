@@ -62,4 +62,6 @@ public static class APData
         
     }
 
+    public static int TotalPagies = 300;
+
 }

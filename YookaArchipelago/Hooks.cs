@@ -1,5 +1,6 @@
 using Il2CppPlaytonic.Game;
 using System.Reflection;
+using Il2CppPlaytonic.Core;
 using Il2CppRewiredConsts;
 
 namespace YookaArchipelago;
@@ -22,7 +23,6 @@ public class Hooks
             string sceneName = SceneManager.GetActiveScene().name;
             string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
             LocationCollected(locationName);
-            //Melon<YRAPMod>.Logger.Msg(SceneWorld.GetWorld(sceneName) + " - " + __instance.name);
             return true;
         }
         
@@ -58,7 +58,6 @@ public class Hooks
         [HarmonyPostfix]
         private static void CoinPickup_GetCollectionStatus(CoinPickup __instance, ref CollectionStatus __result)
         {
-            //Melon<YRAPMod>.Logger.Msg(string.Format("{0} COLLECTION STATUS: {1}", __instance.name, __result));
             string sceneName = __instance.gameObject.scene.name;
             string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
             __result = APData.locationsChecked.Contains(APClient.GetLocationIdFromName(locationName)) ? CollectionStatus.Collected : CollectionStatus.NotSpawned;
@@ -70,7 +69,6 @@ public class Hooks
         {
             string sceneName = __instance.gameObject.scene.name;
             string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
-            //Melon<YRAPMod>.Logger.Msg(locationName);
             LocationCollected(locationName);
         }
     }
@@ -101,6 +99,18 @@ public class Hooks
             APData.DeathlinkReceived = false;
         }
         
+    }
+
+    [HarmonyPatch(typeof(TotalPagiesHudDataSource))]
+    public static class PagieTotalHook
+    {
+        [HarmonyPatch(nameof(TotalPagiesHudDataSource.Value), MethodType.Getter)]
+        [HarmonyPostfix]
+        private static void HudDataSourceValueGetter(TotalPagiesHudDataSource __instance, ref int __result)
+        {
+            Melon<YRAPMod>.Logger.Msg(APData.TotalPagies);
+            __result = APData.TotalPagies;
+        }
     }
 
 }
