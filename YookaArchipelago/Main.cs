@@ -124,10 +124,12 @@ namespace YookaArchipelago
                 gui.ToggleAPUI();
             }
 
+#if DEBUG
             if (Input.GetKeyDown(KeyCode.F3))
             {
                 gui.ToggleDebugMenu();
             }
+#endif
         }
     }
 }

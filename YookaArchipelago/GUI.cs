@@ -26,6 +26,10 @@ namespace YookaArchipelago
         // Debug menu fields
         private Vector2 debugMenuScrollPosition = Vector2.zero;
 
+        // GUI Styles
+        private GUIStyle boxStyle = null!;
+        private Texture2D backgroundTexture = null!;
+
         // Preferences
         private static MelonPreferences_Category preferenceCategory = null!;
         private MelonPreferences_Entry<string> serverPref = null!;
@@ -50,6 +54,7 @@ namespace YookaArchipelago
             namePref = preferenceCategory.CreateEntry<string>("name", "", description: "Player name");
             passwordPref = preferenceCategory.CreateEntry<string>("password", "", description: "Server password");
             deathlinkPref = preferenceCategory.CreateEntry<bool>("deathlink", false, description: "Enable Deathlink");
+
         }
 
         private void LoadSettings()
@@ -97,9 +102,21 @@ namespace YookaArchipelago
         {
             if (showGui)
             {
-                GUI.backgroundColor = new Color(0, 0, 1, 1); // Fully opaque blue
+                // Initialize or reinitialize boxStyle if texture was destroyed
+                if (boxStyle == null || backgroundTexture == null)
+                {
+                    // Create a simple solid color texture
+                    backgroundTexture = new Texture2D(1, 1, TextureFormat.RGBA32, false);
+                    backgroundTexture.SetPixel(0, 0, new Color(0.2f, 0.2f, 0.2f, 0.8f)); // Dark gray
+                    backgroundTexture.Apply();
+
+                    boxStyle = new GUIStyle(GUI.skin.box);
+                    boxStyle.normal.background = backgroundTexture;
+                    boxStyle.border = new RectOffset(0, 0, 0, 0);
+                }
+
                 // Draw window background
-                GUI.Box(windowRect, "");
+                GUI.Box(windowRect, "", boxStyle);
 
                 // Draw title bar for dragging
                 Rect titleBar = new Rect(windowRect.x, windowRect.y, windowRect.width, 20);
