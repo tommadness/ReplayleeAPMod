@@ -5,59 +5,88 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GamePath>/run/media/thomas/Game/SteamLibrary/steamapps/common/Game07</GamePath>
+        <ModPath>$(GamePath)/Mods</ModPath>
+        <OutputPath>$(ModPath)</OutputPath>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0" />
-      <PackageReference Include="LavaGang.MelonLoader" Version="0.7.1" />
+      <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.0">
+        <PrivateAssets>none</PrivateAssets>
+      </PackageReference>
+      <PackageReference Include="LavaGang.MelonLoader" Version="0.7.1">
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
       <Reference Include="0Harmony">
         <HintPath>$(GamePath)\MelonLoader\net6\0Harmony.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="Assembly-CSharp">
         <HintPath>$(GamePath)\MelonLoader\Il2CppAssemblies\Assembly-CSharp.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="Il2CppInterop.Common">
         <HintPath>$(GamePath)\MelonLoader\net6\Il2CppInterop.Common.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="Il2CppInterop.Runtime">
         <HintPath>$(GamePath)\MelonLoader\net6\Il2CppInterop.Runtime.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="Il2Cppmscorlib">
         <HintPath>$(GamePath)\MelonLoader\Il2CppAssemblies\Il2Cppmscorlib.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="Il2CppParadoxNotion">
         <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Il2CppParadoxNotion.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="Il2CppPlaytonic.Core">
         <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Il2CppPlaytonic.Core.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="MonoMod">
         <HintPath>$(GamePath)\MelonLoader\net6\MonoMod.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="UnityEngine">
         <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="UnityEngine.CoreModule">
         <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.CoreModule.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="UnityEngine.Il2CppAssetBundleManager">
         <HintPath>$(GamePath)\MelonLoader\net6\UnityEngine.Il2CppAssetBundleManager.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="UnityEngine.Il2CppImageConversionManager">
         <HintPath>$(GamePath)\MelonLoader\net6\UnityEngine.Il2CppImageConversionManager.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="UnityEngine.IMGUIModule">
         <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.IMGUIModule.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="UnityEngine.InputLegacyModule">
         <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputLegacyModule.dll</HintPath>
+        <Private>false</Private>
       </Reference>
       <Reference Include="UnityEngine.InputModule">
         <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputModule.dll</HintPath>
+        <Private>false</Private>
       </Reference>
     </ItemGroup>
+
+    <Target Name="RemoveUnwantedDlls" AfterTargets="Build">
+        <Delete Files="$(OutputPath)MelonLoader.dll" />
+        <Delete Files="$(OutputPath)Newtonsoft.Json.dll" />
+    </Target>
 
 </Project>
