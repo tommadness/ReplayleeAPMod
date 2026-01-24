@@ -26,6 +26,7 @@ namespace YookaArchipelago
         private APClient _client = null!;
         private GameObject player = null!;
         private PlayerDeathManager deathManager = null!;
+        private static bool showGui = false;
         
         public override void OnEarlyInitializeMelon()
         {
@@ -126,8 +127,31 @@ namespace YookaArchipelago
                 yield return new WaitForSeconds(0.1f);
                 deathManager.StartPostDeathSequence(false);
         }
-        
-        
-        
+
+        public static void DrawArchipelagoUI()
+        {
+            GUI.Label(new Rect(20, 20, 1000, 200), "<b><color=cyan><size=100>Frozen</size></color></b>");
+        }
+
+        public override void OnLateUpdate()
+        {
+            if (Input.GetKeyDown(KeyCode.F2))
+            {
+                ToggleAPUI();
+            }
+        }
+
+        private void ToggleAPUI()
+        {
+            showGui = !showGui;
+            if (showGui)
+            {
+                MelonEvents.OnGUI.Subscribe(DrawArchipelagoUI, 100);
+            }
+            else
+            {
+                MelonEvents.OnGUI.Unsubscribe(DrawArchipelagoUI);
+            }
+        }
     }
 }
