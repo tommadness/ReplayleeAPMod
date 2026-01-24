@@ -23,7 +23,7 @@ public class Hooks
             string sceneName = __instance.gameObject.scene.name;
             string locationName = $"{Data.GetWorld(sceneName)} - {__instance.name}";
             LocationCollected(locationName);
-            return true;
+            return false;
         }
         
     }
@@ -110,6 +110,23 @@ public class Hooks
         {
             Melon<YRAPMod>.Logger.Msg(APData.TotalPagies);
             __result = APData.TotalPagies;
+        }
+    }
+
+    [HarmonyPatch(typeof(FrontendControllerBase))]
+    public static class GameFrontendControllerHooks
+    {
+        [HarmonyPatch(nameof(FrontendControllerBase.Start))]
+        [HarmonyPrefix]
+        private static void Start(GameFrontendController __instance)
+        {
+            var apButton = __instance.transform.Find("MainMenuScreen.UI/Content/Buttons/Wishlist");
+            var text = apButton.Find("Position/Text").gameObject.GetComponent<UITextController>();
+            text.Text = "Archipelago";
+
+            apButton.gameObject.SetActive(true);
+            Melon<YRAPMod>.Logger.Msg(apButton.name);
+            Melon<YRAPMod>.Logger.Msg(text);
         }
     }
 

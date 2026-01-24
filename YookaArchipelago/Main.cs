@@ -26,42 +26,32 @@ namespace YookaArchipelago
         private APClient _client = null!;
         private GameObject player = null!;
         private PlayerDeathManager deathManager = null!;
-        private static bool showGui = false;
-        
+        private ArchipelagoGUI gui = null!;
+
         public override void OnEarlyInitializeMelon()
         {
             Application.runInBackground = true;
         }
-        
+
         public override void OnLateInitializeMelon()
         {
-            _client = new APClient();
-            _client.Connect();
             hooks = new Hooks();
-            
-            Hooks.LocationCollected += _client.SendLocation;
+            gui = new ArchipelagoGUI();
+            gui.SetMoveToggledCallback(ActivatePlayerMove);
             APData.NewMoveReceived += ActivatePlayerMove;
             APClient.DeathlinkService.OnDeathLinkReceived += ReceiveDeathlink;
-
         }
 
         private void ReceiveDeathlink(DeathLink deathLink)
         {
-            LoggerInstance.Msg("Received death link");
-            LoggerInstance.Msg("Finding deathManager");
-            LoggerInstance.Msg($"Found: {deathManager.name}");
-            LoggerInstance.Msg($"DeathManagerPlayer: {deathManager.mPlayer.name}");
-            LoggerInstance.Msg("Setting debounce flag true");
             APData.DeathlinkReceived = true;
-            LoggerInstance.Msg("Calling Post Death Sequence");
             MelonCoroutines.Start(DoDeathLink());
         }
 
         public void ActivatePlayerMove(PlayerMoves.Moves move)
         {
             findPlayer();
-            LoggerInstance.Msg($"ACTIVAING: {move}");
-            player.GetComponent<PlayerMoves>().GetMove(move).mIsEnabledInGame = true;
+            player.GetComponent<PlayerMoves>().GetMove(move).mIsEnabledInGame = APData.playerMoves[move];
         }
 
         private void findPlayer()
@@ -69,13 +59,12 @@ namespace YookaArchipelago
             if (player == null)
             {
                 player = GameObject.Find("PlayerKamBatV5");
-                LoggerInstance.Msg(player.name);
             }
         }
 
         public override void OnSceneWasInitialized(int buildIndex, string sceneName)
         {
-            if(sceneName == "Level_00_Hub_A_Environment")
+            if (sceneName == "Level_00_Hub_A_Environment")
             {
                 MelonCoroutines.Start(UnslipEarlySlopes());
             }
@@ -92,7 +81,7 @@ namespace YookaArchipelago
         }
 
         private IEnumerator UnslipEarlySlopes()
-        {           
+        {
             yield return new WaitForSeconds(1f);
             GameObject.Find("hub_lair_floor_slippy_01_a").GetComponent<ObjectSurface>().IsSurfaceSlippy = false;
         }
@@ -124,33 +113,20 @@ namespace YookaArchipelago
 
         private IEnumerator DoDeathLink()
         {
-                yield return new WaitForSeconds(0.1f);
-                deathManager.StartPostDeathSequence(false);
-        }
-
-        public static void DrawArchipelagoUI()
-        {
-            GUI.Label(new Rect(20, 20, 1000, 200), "<b><color=cyan><size=100>Frozen</size></color></b>");
+            yield return new WaitForSeconds(0.1f);
+            deathManager.StartPostDeathSequence(false);
         }
 
         public override void OnLateUpdate()
         {
             if (Input.GetKeyDown(KeyCode.F2))
             {
-                ToggleAPUI();
+                gui.ToggleAPUI();
             }
-        }
 
-        private void ToggleAPUI()
-        {
-            showGui = !showGui;
-            if (showGui)
+            if (Input.GetKeyDown(KeyCode.F3))
             {
-                MelonEvents.OnGUI.Subscribe(DrawArchipelagoUI, 100);
-            }
-            else
-            {
-                MelonEvents.OnGUI.Unsubscribe(DrawArchipelagoUI);
+                gui.ToggleDebugMenu();
             }
         }
     }
