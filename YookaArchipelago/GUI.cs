@@ -176,7 +176,6 @@ namespace YookaArchipelago
                     SaveSettings();
                     _client = new APClient(server, int.Parse(port));
                     _client.Connect(name, enableDeathlink);
-                    Hooks.LocationCollected += APClient.SendLocation;
                 }
 
                 if (GUI.Button(new Rect(windowRect.x + 120, windowRect.y + 155, 100, 30), "Close"))
