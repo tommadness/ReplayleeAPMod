@@ -17,6 +17,7 @@ public class APClient
     {
         Session = ArchipelagoSessionFactory.CreateSession(host, port);
         Session.Items.ItemReceived += ReceiveItem;
+        Session.MessageLog.OnMessageReceived += ReceiveMessage;
         Melon<YRAPMod>.Logger.Msg($"Created Session");
 
     }
@@ -50,11 +51,11 @@ public class APClient
 
     public static void SendLocation(string location)
     {
-        Melon<YRAPMod>.Logger.Msg($"Sending location: {location}");
+        //Melon<YRAPMod>.Logger.Msg($"Sending location: {location}");
         var locationId = Session.Locations.GetLocationIdFromName("Yooka-Replaylee", location);
         if (!APData.locationsChecked.Contains(locationId))
         {
-            Melon<YRAPMod>.Logger.Msg($"AP SENDING: {locationId}: {location}");
+            //Melon<YRAPMod>.Logger.Msg($"AP SENDING: {locationId}: {location}");
             APData.locationsChecked.Add(locationId);
             Session.Locations.CompleteLocationChecks(locationId);
         }
@@ -65,13 +66,31 @@ public class APClient
         var itemReceivedId = receivedItemsHelper.PeekItem().ItemId;
         var itemReceivedName = receivedItemsHelper.PeekItem().ItemDisplayName;
 
-        Melon<YRAPMod>.Logger.Msg($"AP RECEIVED: {itemReceivedName}:  {itemReceivedId}");
-        if (APData.apNameToMoveName.ContainsKey(itemReceivedName))
+        //Melon<YRAPMod>.Logger.Msg($"AP RECEIVED: {itemReceivedName}:  {itemReceivedId}");
+        if (Data.apNameToMoveName.ContainsKey(itemReceivedName))
         {
             APData.AddPlayerMove(itemReceivedName);
         }
 
         receivedItemsHelper.DequeueItem();
+    }
+
+    public static void ReceiveMessage(LogMessage message)
+    {
+        switch (message)
+        {
+            case PlayerSpecificLogMessage playerMessage:
+                if (!playerMessage.IsActivePlayer)
+                {
+                    return;
+                }
+                Melon<YRAPMod>.Logger.Msg(playerMessage.ToString());
+                break;
+            default:
+                Melon<YRAPMod>.Logger.Msg(message.ToString());
+                break;
+        }
+        
     }
 
     public static long GetLocationIdFromName(string location)
