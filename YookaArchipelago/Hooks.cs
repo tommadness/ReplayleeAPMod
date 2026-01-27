@@ -125,8 +125,53 @@ public class Hooks
             text.Text = "Archipelago";
 
             apButton.gameObject.SetActive(true);
-            Melon<YRAPMod>.Logger.Msg(apButton.name);
-            Melon<YRAPMod>.Logger.Msg(text);
+            //Melon<YRAPMod>.Logger.Msg(apButton.name);
+            //Melon<YRAPMod>.Logger.Msg(text);
+        }
+    }
+
+    [HarmonyPatch(typeof(LocalisationHelper))]
+    public static class LocalisationHelperHooks
+    {
+        [HarmonyPatch(nameof(LocalisationHelper.OnTextReloadedEvent))]
+        [HarmonyPostfix]
+        private static void SetText(LocalisationHelper __instance)
+        {
+            string parentName = __instance.transform.parent.parent.name;
+            if (parentName == "Wishlist")
+            {
+                Melon<YRAPMod>.Logger.Msg("Changing Wishlist text");
+                __instance.SetText("Archipelago");
+            }
+            
+        }
+    }
+
+    [HarmonyPatch(typeof(UnityEngine.EventSystems.EventTrigger))]
+    public static class EventTriggerHooks
+    {
+        [HarmonyPatch(nameof(UnityEngine.EventSystems.EventTrigger.OnSubmit))]
+        [HarmonyPrefix]
+        private static bool OnSubmit(UnityEngine.EventSystems.EventTrigger __instance)
+        {
+            if (__instance.gameObject.name == "Wishlist")
+            {
+                YRAPMod.gui.ToggleAPUI();
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(GameStatManager))]
+    public static class GameStatManagerHooks
+    {
+        [HarmonyPatch(nameof(GameStatManager.Start))]
+        [HarmonyPostfix]
+        private static void GetCurrentValue(GameStatManager __instance)
+        {
+            Melon<YRAPMod>.Logger.Msg($"Started Game Stat Manager");
         }
     }
 

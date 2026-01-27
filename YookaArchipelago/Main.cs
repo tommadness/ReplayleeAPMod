@@ -26,7 +26,7 @@ namespace YookaArchipelago
         private APClient _client = null!;
         private GameObject player = null!;
         private PlayerDeathManager deathManager = null!;
-        private ArchipelagoGUI gui = null!;
+        public static ArchipelagoGUI gui = null!;
 
         public override void OnEarlyInitializeMelon()
         {
