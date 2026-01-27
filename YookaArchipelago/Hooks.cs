@@ -4,6 +4,7 @@ using Il2CppPlaytonic.Core;
 using Il2CppRewiredConsts;
 using System.Collections;
 using System.Net.Mime;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UI;
@@ -39,6 +40,17 @@ public class Hooks
             PagieChallengeData challenge = __instance.PagieChallengeData;
             string locationName = $"{Data.GetWorld(sceneName)} - {challenge.PagieName.GetLocalizedString()}";
             Melon<YRAPMod>.Logger.Msg($"{locationName}");
+            if (!Data.apLocations.ContainsKey(sceneName))
+            {
+                Data.apLocations.Add(sceneName, new List<string>());
+            }
+
+            if (!Data.apLocations[sceneName].Contains(locationName))
+            {
+                Data.apLocations[sceneName].Add(locationName);
+            }
+            File.WriteAllText("aplocations.json", JsonConvert.SerializeObject(Data.apLocations,Formatting.Indented));
+
             LocationCollected(locationName);
             __instance.PlayCollectEffects();
             __instance.gameObject.SetActive(false);
@@ -88,6 +100,15 @@ public class Hooks
         {
             string sceneName = __instance.gameObject.scene.name;
             string locationName = $"{Data.GetWorld(sceneName)} - {__instance.name}";
+            if (!Data.apLocations.ContainsKey(sceneName))
+            {
+                Data.apLocations.Add(sceneName, new List<string>());
+            }
+            if (!Data.apLocations[sceneName].Contains(locationName))
+            {
+                Data.apLocations[sceneName].Add(locationName);
+            }
+            File.WriteAllText("aplocations.json", JsonConvert.SerializeObject(Data.apLocations,Formatting.Indented));
             LocationCollected(locationName);
         }
     }

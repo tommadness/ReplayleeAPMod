@@ -40,4 +40,6 @@ public static class Data
         {"Wheel Dash Attack", PlayerMoves.Moves.WheelDashAttack},
         {"Jump", PlayerMoves.Moves.Jump},
     };
+
+    public static Dictionary<string, List<string>> apLocations = new Dictionary<string, List<string>>();
 }

@@ -5,6 +5,7 @@ using Il2Cpp;
 using Il2CppPlaytonic.Game;
 using UnityEngine;
 using Il2CppParadoxNotion;
+using Newtonsoft.Json;
 using UnityEngine.SceneManagement;
 
 
@@ -38,6 +39,14 @@ namespace YookaArchipelago
             gui.SetMoveToggledCallback(ActivatePlayerMove);
             APData.NewMoveReceived += ActivatePlayerMove;
             APClient.DeathlinkService.OnDeathLinkReceived += ReceiveDeathlink;
+            Data.apLocations = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(File.ReadAllText("aplocations.json"));
+        }
+
+        public override void OnDeinitializeMelon()
+        {
+            string fileName = "aplocations.json";
+            string jsonString = JsonConvert.SerializeObject(Data.apLocations);
+            File.WriteAllText(fileName, jsonString);
         }
 
         private void ReceiveDeathlink(DeathLink deathLink)
