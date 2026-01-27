@@ -195,7 +195,7 @@ namespace YookaArchipelago
                 debugMenuScrollPosition = GUI.BeginScrollView(new Rect(10, 30, 400, Screen.height - 50), debugMenuScrollPosition, new Rect(0, 0, 380, 25 * APData.playerMoves.Count));
 
                 int index = 0;
-                foreach (var moveName in APData.apNameToMoveName)
+                foreach (var moveName in Data.apNameToMoveName)
                 {
                     bool previousValue = APData.playerMoves[moveName.Value];
                     APData.playerMoves[moveName.Value] = GUI.Toggle(new Rect(20, 10 + (index * 25), 360, 20), APData.playerMoves[moveName.Value], moveName.Key);
