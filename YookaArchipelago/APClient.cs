@@ -32,6 +32,7 @@ public class APClient
         {
             var loginSuccess = (LoginSuccessful)loginResult;
             APData.locationsChecked = Session.Locations.AllLocationsChecked.ToList();
+            Hooks.LocationCollected += SendLocation;
             DeathlinkService = Session.CreateDeathLinkService();
             if (enableDeathlink)
             {
@@ -53,7 +54,7 @@ public class APClient
 
     public static void SendLocation(string location)
     {
-        //Melon<YRAPMod>.Logger.Msg($"Sending location: {location}");
+        Melon<YRAPMod>.Logger.Msg($"Sending location: {location}");
         var locationId = Session.Locations.GetLocationIdFromName("Yooka-Replaylee", location);
         if (!APData.locationsChecked.Contains(locationId))
         {
