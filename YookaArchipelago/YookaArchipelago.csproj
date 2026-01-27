@@ -54,6 +54,9 @@
         <HintPath>$(GamePath)\MelonLoader\net6\MonoMod.dll</HintPath>
         <Private>false</Private>
       </Reference>
+      <Reference Include="Unity.Localization">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\Unity.Localization.dll</HintPath>
+      </Reference>
       <Reference Include="UnityEngine">
         <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.dll</HintPath>
         <Private>false</Private>
@@ -81,6 +84,12 @@
       <Reference Include="UnityEngine.InputModule">
         <HintPath>$(GamePath)\MelonLoader\Dependencies\Il2CppAssemblyGenerator\UnityDependencies\UnityEngine.InputModule.dll</HintPath>
         <Private>false</Private>
+      </Reference>
+      <Reference Include="UnityEngine.UI">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\UnityEngine.UI.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.UIElementsModule">
+        <HintPath>..\..\..\..\..\run\media\thomas\Game\SteamLibrary\steamapps\common\Game07\MelonLoader\Il2CppAssemblies\UnityEngine.UIElementsModule.dll</HintPath>
       </Reference>
     </ItemGroup>
 

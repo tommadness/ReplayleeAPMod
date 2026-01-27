@@ -2,6 +2,11 @@ using Il2CppPlaytonic.Game;
 using System.Reflection;
 using Il2CppPlaytonic.Core;
 using Il2CppRewiredConsts;
+using System.Collections;
+using System.Net.Mime;
+using UnityEngine;
+using UnityEngine.Localization;
+using UnityEngine.UI;
 
 namespace YookaArchipelago;
 using MelonLoader;
@@ -16,13 +21,27 @@ public class Hooks
     [HarmonyPatch(typeof(PagiePickup))]
     private static class PagiePickupHook
     {
+        [HarmonyPatch(nameof(PagiePickup.GetCollectionStatus))]
+        [HarmonyPostfix]
+        private static void CoinPickup_GetCollectionStatus(PagiePickup __instance, ref CollectionStatus __result)
+        {
+            string sceneName = __instance.gameObject.scene.name;
+            string locationName = string.Format("{0} - {1}", Data.GetWorld(sceneName), __instance.name);
+            __result = APData.locationsChecked.Contains(APClient.GetLocationIdFromName(locationName)) ? CollectionStatus.Collected : CollectionStatus.NotSpawned;
+        }
+        
         [HarmonyPatch(nameof(PagiePickup.Collect))]
         [HarmonyPrefix]
         private static bool PagieCollect(PagiePickup __instance)
         {
             string sceneName = __instance.gameObject.scene.name;
-            string locationName = $"{Data.GetWorld(sceneName)} - {__instance.name}";
+            Melon<YRAPMod>.Logger.Msg($"Pagie collected in scene:{sceneName}, object name: {__instance.name}");
+            PagieChallengeData challenge = __instance.PagieChallengeData;
+            string locationName = $"{Data.GetWorld(sceneName)} - {challenge.PagieName.GetLocalizedString()}";
+            Melon<YRAPMod>.Logger.Msg($"{locationName}");
             LocationCollected(locationName);
+            __instance.PlayCollectEffects();
+            __instance.gameObject.SetActive(false);
             return false;
         }
         
@@ -108,7 +127,7 @@ public class Hooks
         [HarmonyPostfix]
         private static void HudDataSourceValueGetter(TotalPagiesHudDataSource __instance, ref int __result)
         {
-            Melon<YRAPMod>.Logger.Msg(APData.TotalPagies);
+            //Melon<YRAPMod>.Logger.Msg(APData.TotalPagies);
             __result = APData.TotalPagies;
         }
     }
@@ -121,9 +140,9 @@ public class Hooks
         private static void Start(GameFrontendController __instance)
         {
             var apButton = __instance.transform.Find("MainMenuScreen.UI/Content/Buttons/Wishlist");
-            var text = apButton.Find("Position/Text").gameObject.GetComponent<UITextController>();
+            var text = apButton.GetComponent<MainMenuItemController>().ItemTitle;
             text.Text = "Archipelago";
-
+            
             apButton.gameObject.SetActive(true);
             //Melon<YRAPMod>.Logger.Msg(apButton.name);
             //Melon<YRAPMod>.Logger.Msg(text);

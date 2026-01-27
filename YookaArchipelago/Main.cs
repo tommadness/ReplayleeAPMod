@@ -22,7 +22,6 @@ namespace YookaArchipelago
 
     public class YRAPMod : MelonMod
     {
-        public static Hooks hooks = null!;
         private APClient _client = null!;
         private GameObject player = null!;
         private PlayerDeathManager deathManager = null!;
@@ -35,7 +34,6 @@ namespace YookaArchipelago
 
         public override void OnLateInitializeMelon()
         {
-            hooks = new Hooks();
             gui = new ArchipelagoGUI();
             gui.SetMoveToggledCallback(ActivatePlayerMove);
             APData.NewMoveReceived += ActivatePlayerMove;
